@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بطاقة تهنئة بالعيد</title>
+ 
+    <!-- خط كايرو من Google Fonts -->
+    <link href=https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap rel="stylesheet">
+ 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background: #f7f7f7;
+            overflow: hidden; /* منع التمرير */
+        }
+ 
+        /* إعدادات البطاقة */
+        .card-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            aspect-ratio: 9 / 16;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+ 
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+ 
+        .card img {
+            object-fit: cover; /* يضمن ظهور الصورة كاملة */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+ 
+        /* التحكم في الأزرار */
+        .controls {
+            position: fixed;
+            bottom: 6%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 3vw;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 500px;
+            font-family: 'Cairo', sans-serif; /* تطبيق خط كايرو على الأزرار */
+        }
+ 
+        .controls input, .controls button {
+            font-family: 'Cairo', sans-serif; /* تطبيق خط كايرو على الأزرار */
+            font-size: 22px;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            text-align: center;
+            width: auto;
+            min-width: 100px;
+        }
+ 
+        .download-btn, .preview-btn {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+ 
+        /* إعدادات النص في البطاقة */
+        .name-overlay {
+            font-family: 'Cairo', sans-serif; /* تطبيق خط كايرو على النص في البطاقة */
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #fff;
+            white-space: nowrap;
+            z-index: 20;
+            text-align: center;
+        }
+ 
+        /* تصغير حجم الخط للأجهزة الصغيرة */
+        @media (max-width: 768px) {
+            .controls input, .controls button {
+                font-size: 18px;
+                padding: 8px;
+                min-width: 80px;
+            }
+ 
+            .name-overlay {
+                font-size: 28px; /* تصغير بسيط لحجم الخط */
+            }
+        }
+ 
+        @media (max-width: 480px) {
+            .card-container {
+                width: 95%;
+            }
+ 
+            .name-overlay {
+                font-size: 24px; /* تصغير إضافي لحجم الخط على الجوال */
+            }
+        }
+    </style>
+</head>
+ 
+<body>
+ 
+    <!-- لوحة التحكم -->
+    <div class="controls">
+        <input type="text" id="name" placeholder="ادخل اسمك" />
+        <button class="preview-btn" onclick="previewName()">معاينة</button>
+        <button class="download-btn" onclick="downloadImage()">تحميل</button>
+    </div>
+ 
+    <!-- البطاقة -->
+    <div class="card-container">
+        <div class="card" id="card">
+            <img id="cardImage" src=https://github.com/LaverneGroup5/EID111/blob/main/Eid.jpg?raw=true="عيد مبارك" crossorigin="anonymous">
+            <div class="name-overlay" id="nameOverlay"></div>
+        </div>
+    </div>
+ 
+    <!-- السكربت -->
+    <script>
+        // عرض الاسم في المعاينة
+        function previewName() {
+            const name = document.getElementById('name').value;
+            const nameOverlay = document.getElementById('nameOverlay');
+            nameOverlay.textContent = name;
+        }
+ 
+        // تحميل البطاقة
+        function downloadImage() {
+            previewName();
+ 
+            html2canvas(document.getElementById('card'), {
+                useCORS: true,
+                scale: 3,
+                width: document.querySelector('.card').offsetWidth,
+                height: document.querySelector('.card').offsetHeight
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'eid_card.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+ 
+    <!-- مكتبة html2canvas -->
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js></script>
+ 
+</body>
+ 
+</html>
+ 
+ 
